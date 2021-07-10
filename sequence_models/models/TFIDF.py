@@ -20,23 +20,28 @@ class TfIdf(object):
         If not None, build a vocabulary that only consider the top max_features ordered by term frequency
         across the corpus. This parameter is ignored if vocabulary is not None.
     """
-    def __init__(self, seqs, ngram_range=(1, 1), max_features=10000):
-        self.seqs = [' '.join(seq) for seq in seqs]
+    def __init__(self, ngram_range=(1, 1), max_features=10000):
         self.ngram_range = ngram_range
         self.max_features = max_features
-        self.sts_tfidf = None
 
-    def fit_transform(self):
+    def fit_transform(self, seqs):
+        if isinstance(seqs[0], str):
+            seqs = seqs
+        elif isinstance(seqs[0], list):
+            seqs = [' '.join(seq) for seq in seqs]
+        else:
+            raise Exception("Error! cannot deal with the type of seqs.")
+
         tfv = TfidfVectorizer(ngram_range=self.ngram_range,
                               max_features=self.max_features,
                               token_pattern=r"(?u)\b[^ ]+\b")
-        self.sts_tfidf = tfv.fit_transform(self.seqs)
+        seqs_tfidf = tfv.fit_transform(seqs)
 
-        return self.sts_tfidf
+        return seqs_tfidf
 
-    def decomposition(self, n_components=16):
+    def decomposition(self, data, n_components=16):
         svd = TruncatedSVD(n_components=n_components)
-        sts_svd = svd.fit_transform(self.sts_tfidf)
+        sts_svd = svd.fit_transform(data)
 
         df_tfidf = pd.DataFrame()
         for i in range(n_components):

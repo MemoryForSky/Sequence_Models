@@ -26,29 +26,33 @@ class Seq2Vec(object):
         self.min_count = min_count
         self.epochs = epochs
         self.seed = seed
-        self.seqs = []
+        self.seqs = None
 
     def fit(self, seqs):
-        for i in range(len(seqs)):
-            self.seqs[i] = [str(x) for x in seqs[i]]
+        if isinstance(seqs[0], list):
+            for i in range(len(seqs)):
+                seqs[i] = [str(x) for x in seqs[i]]
+        else:
+            raise Exception("Error! cannot deal with the type of seqs.")
 
-        self.model = Word2Vec(self.seqs,
-                              vector_size=self.emb_size,
-                              window=self.window,
-                              min_count=self.min_count,
-                              sg=0,
-                              hs=0,
-                              seed=self.seed,
-                              epochs=self.epochs)
-        return self.model
+        self.seqs = seqs
+        model = Word2Vec(self.seqs,
+                         vector_size=self.emb_size,
+                         window=self.window,
+                         min_count=self.min_count,
+                         sg=0,
+                         hs=0,
+                         seed=self.seed,
+                         epochs=self.epochs)
+        return model
 
-    def get_matrix(self):
+    def get_matrix(self, model):
         emb_matrix = []
         for seq in self.seqs:
             vec = []
             for w in seq:
-                if w in self.model.wv:
-                    vec.append(self.model.wv.get_vector(w))
+                if w in model.wv:
+                    vec.append(model.wv.get_vector(w))
             if len(vec) > 0:
                 emb_matrix.append(np.mean(vec, axis=0))
             else:
