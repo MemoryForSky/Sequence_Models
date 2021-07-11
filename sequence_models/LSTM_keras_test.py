@@ -47,7 +47,7 @@ for fold_, (trn_idx, val_idx) in enumerate(folds.split(train, train['label'])):
         model.summary()
 
     early_stopping = EarlyStopping(monitor='val_accuracy', patience=5)
-    bst_model_path = "./{}.h5".format(fold_)
+    bst_model_path = "./outputs/{}.h5".format(fold_)
     model_checkpoint = ModelCheckpoint(bst_model_path, save_best_only=True, save_weights_only=True)
 
     X_tra, X_val = X_train[trn_idx], X_train[val_idx]
@@ -72,5 +72,8 @@ print("Precision score: {}".format(precision_score(y, [1 if i >= 0.5 else 0 for 
 print("Recall score: {}".format(recall_score(y, [1 if i >= 0.5 else 0 for i in oof])))
 
 """
-
+AUC score: 0.7587734087111111
+F1 score: 0.6885398984155358
+Precision score: 0.6888868127248097
+Recall score: 0.6881933333333333
 """

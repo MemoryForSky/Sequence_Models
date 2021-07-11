@@ -1,11 +1,8 @@
 import keras
 from keras.preprocessing import text, sequence
-from keras.utils import to_categorical
 from keras.models import *
 from keras.layers import *
-from keras.callbacks import *
 from keras.optimizers import *
-import tensorflow as tf
 from models.Seq2Vec import Seq2Vec
 
 
@@ -40,14 +37,19 @@ class SeqLSTM(object):
 
         return embedding_matrix
 
-    def LSTM(self, embedding_matrix):
+    def LSTM(self, embedding_matrix=None):
         embedding_input = Input(shape=(self.max_sequence_length,), dtype='int32')
-        # 词嵌入（使用预训练的词向量）
-        embedder = Embedding(self.nb_words,
-                             self.embed_size,
-                             input_length=self.max_sequence_length,
-                             weights=[embedding_matrix],
-                             trainable=False)
+        if embedding_matrix is None:
+            embedder = Embedding(self.nb_words,
+                                 self.embed_size,
+                                 input_length=self.max_sequence_length)
+        else:
+            # 词嵌入（使用预训练的词向量）
+            embedder = Embedding(self.nb_words,
+                                 self.embed_size,
+                                 input_length=self.max_sequence_length,
+                                 weights=[embedding_matrix],
+                                 trainable=False)
         embed = embedder(embedding_input)
         lstm = LSTM(128)(embed)
         flat = BatchNormalization()(lstm)
