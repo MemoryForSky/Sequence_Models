@@ -1,6 +1,6 @@
 # Sequence_Models
 
-李恩达：
+吴恩达：
 
 https://www.coursera.org/learn/nlp-sequence-models#syllabus
 
