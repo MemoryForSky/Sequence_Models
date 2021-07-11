@@ -1,14 +1,13 @@
 from torch import nn
 
 
-
 class SeqsLSTM(nn.Module):
     def __init__(self, seqs, nb_words=10000, embed_size=64, embedding_matrix=None, max_sequence_length=128,
                  hidden_size=128, bidirectional=False, dropout=0.2):
         super(SeqsLSTM, self).__init__()
         self.seqs = seqs
         self.nb_words = nb_words
-        self.embed_size = embed_size/
+        self.embed_size = embed_size
         self.max_sequence_length = max_sequence_length
         if embedding_matrix is None:
             self.embedding = nn.Embedding(self.nb_words, self.embed_size)

@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9445c17a-1271-44a6-b436-f661c2c4183c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LSTM_keras_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSTM_keras_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/LSTM_keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/LSTM_keras.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/LSTM_torch.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/LSTM_torch.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/LSTM_torch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="6" column="68" selection-start-line="6" selection-start-column="68" selection-end-line="6" selection-end-column="68" />
+            <state relative-caret-position="24">
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -255,7 +252,7 @@
       <workItem from="1625667467659" duration="1122000" />
       <workItem from="1625723397790" duration="15280000" />
       <workItem from="1625795109752" duration="2625000" />
-      <workItem from="1625914030570" duration="20688000" />
+      <workItem from="1625914030570" duration="21302000" />
     </task>
     <servers />
   </component>
@@ -280,7 +277,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43154000" />
+    <option name="totallyTimeSpent" value="43768000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -293,6 +290,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1426" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0699523" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -415,8 +413,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/LSTM_torch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="68" selection-start-line="6" selection-start-column="68" selection-end-line="6" selection-end-column="68" />
+        <state relative-caret-position="24">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
