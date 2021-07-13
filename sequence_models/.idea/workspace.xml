@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9445c17a-1271-44a6-b436-f661c2c4183c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/models/LSTM.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/base_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preprocessing/inputs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/LSTM_torch.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/LSTM_torch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pytest_cache/v/cache/nodeids" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSTM_torch_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSTM_torch_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/LSTM_torch.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,12 +19,12 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/LSTM_torch.py">
+        <entry file="file://$PROJECT_DIR$/models/base_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="69">
+              <caret line="171" column="11" selection-start-line="171" selection-start-column="11" selection-end-line="171" selection-end-column="11" />
               <folding>
-                <element signature="e#0#6#0" expanded="true" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -52,7 +57,6 @@
         <option value="$PROJECT_DIR$/Test_BiLSTM_Attention.py" />
         <option value="$PROJECT_DIR$/models/tf-idf.py" />
         <option value="$PROJECT_DIR$/models/Word2Vec.py" />
-        <option value="$PROJECT_DIR$/models/BiLSTM.py" />
         <option value="$PROJECT_DIR$/models/BiLSTM_keras.py" />
         <option value="$PROJECT_DIR$/models/BiLSTM_torch.py" />
         <option value="$PROJECT_DIR$/models/BiLSTM_Attention.py" />
@@ -68,10 +72,14 @@
         <option value="$PROJECT_DIR$/models/LSTM_keras.py" />
         <option value="$PROJECT_DIR$/LSTM_keras_test.py" />
         <option value="$PROJECT_DIR$/models/LSTM_torch.py" />
+        <option value="$PROJECT_DIR$/preprocessing/inputs.py" />
+        <option value="$PROJECT_DIR$/models/base_model.py" />
+        <option value="$PROJECT_DIR$/LSTM_torch_test.py" />
+        <option value="$PROJECT_DIR$/models/BiLSTM.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-45" />
     <option name="y" value="86" />
     <option name="width" value="1386" />
@@ -114,6 +122,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\develop\github\Sequence_Models\sequence_models\outputs" />
       <recent name="D:\develop\github\Sequence_Models\sequence_models" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -132,14 +141,11 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.LSTM_keras_test">
+  <component name="RunManager" selected="Python.LSTM_torch_test">
     <configuration name="LSTM_keras_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="sequence_models" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -147,6 +153,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LSTM_keras_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LSTM_torch_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="sequence_models" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LSTM_torch_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -239,6 +264,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.LSTM_torch_test" />
         <item itemvalue="Python.LSTM_keras_test" />
         <item itemvalue="Python.seq2vec_test" />
         <item itemvalue="Python.tfidf_test" />
@@ -261,7 +287,10 @@
       <workItem from="1625723397790" duration="15280000" />
       <workItem from="1625795109752" duration="2625000" />
       <workItem from="1625914030570" duration="21376000" />
-      <workItem from="1626075509564" duration="1626000" />
+      <workItem from="1626075509564" duration="11446000" />
+      <workItem from="1626155512879" duration="2943000" />
+      <workItem from="1626160157009" duration="416000" />
+      <workItem from="1626160598665" duration="9253000" />
     </task>
     <servers />
   </component>
@@ -286,7 +315,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45468000" />
+    <option name="totallyTimeSpent" value="67900000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -298,10 +327,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1426" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.06279809" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1505295" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -316,13 +344,13 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32972136" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.29951692" />
+      <window_info anchor="bottom" id="Python Console" order="12" visible="true" weight="0.29516128" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Remote Host" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
-      <window_info anchor="right" x="0" y="0" width="295" height="554" id="Documentation" order="5" side_tool="true" weight="0.32829046" />
+      <window_info anchor="right" x="0" y="0" width="295" height="554" id="Documentation" order="5" side_tool="true" weight="0.30786687" />
       <window_info anchor="right" id="Database" order="6" />
     </layout>
   </component>
@@ -409,23 +437,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LSTM_keras_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="77" column="32" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
+        <state relative-caret-position="24">
+          <caret line="1" column="18" lean-forward="true" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing/inputs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#8#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LSTM_torch_test.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/LSTM_torch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="744">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
           <folding>
             <element signature="e#0#6#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/BiLSTM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="39" column="22" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/base_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="171" column="11" selection-start-line="171" selection-start-column="11" selection-end-line="171" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
