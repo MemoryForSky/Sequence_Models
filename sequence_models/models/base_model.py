@@ -6,10 +6,11 @@ import torch.nn.functional as F
 from torchtext.legacy import data
 from sklearn.metrics import *
 from sklearn.metrics import f1_score
+import matplotlib.pyplot as plt
 
 SEED = 2021
 torch.manual_seed(SEED)
-torch.backends.cudnn.deterministic = True
+# torch.backends.cudnn.deterministic = True
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
@@ -21,7 +22,14 @@ class BaseModel(nn.Module):
         self.batch_size = batch_size
         self.seed = seed
 
-    def fit(self, training_data, epochs=3, do_validation=False, split_ratio=0.3):
+        self.train_epochs_loss = []
+        self.valid_epochs_loss = []
+        self.train_epochs_acc = []
+        self.valid_epochs_acc = []
+        self.train_epochs_f1 = []
+        self.valid_epochs_f1 = []
+
+    def fit(self, training_data, epochs=3, do_validation=False, split_ratio=0.2):
         train_data, valid_data = training_data.split(split_ratio=split_ratio,
                                                      random_state=random.seed(SEED))
         train_iterator, valid_iterator = data.BucketIterator.splits((train_data, valid_data),
@@ -74,6 +82,10 @@ class BaseModel(nn.Module):
             train_acc = epoch_acc / len(train_iterator)
             train_f1 = epoch_f1 / len(train_iterator)
 
+            self.train_epochs_loss.append(train_loss)
+            self.train_epochs_acc.append(train_acc)
+            self.train_epochs_f1.append(train_f1)
+
             print(f'Epoch {epoch + 1}：\n  Train Loss: {train_loss:.3f} | Train Acc: {train_acc * 100:.2f}% | '
                   f'Train f1: {train_f1 * 100:.2f}%')
 
@@ -84,6 +96,10 @@ class BaseModel(nn.Module):
                 if valid_loss < best_valid_loss:
                     best_valid_loss = valid_loss
                     torch.save(model.state_dict(), './outputs/saved_weights.pt')
+
+                self.valid_epochs_loss.append(valid_loss)
+                self.valid_epochs_acc.append(valid_acc)
+                self.valid_epochs_f1.append(valid_f1)
 
                 print(f'   Val. Loss: {valid_loss:.3f} |  Val. Acc: {valid_acc * 100:.2f}% |  '
                       f'Val. f1: {valid_f1 * 100:.2f}%')
@@ -122,6 +138,23 @@ class BaseModel(nn.Module):
         self.loss_func = self._get_loss_func(loss)
         self.metrics = self._get_metrics(metrics)
 
+    def plot_metrics(self, metric='loss', figsize=(6, 4)):
+        _ = plt.figure(figsize=figsize)
+        x_indices = [i + 1 for i in range(len(self.train_epochs_loss))]
+        if metric == 'loss':
+            plt.plot(x_indices, self.train_epochs_loss, label='train_' + metric)
+            plt.plot(x_indices, self.valid_epochs_loss, label='test_' + metric)
+        elif metric == 'acc':
+            plt.plot(x_indices, self.train_epochs_acc, label='train_' + metric)
+            plt.plot(x_indices, self.valid_epochs_acc, label='test_' + metric)
+        elif metric == 'f1':
+            plt.plot(x_indices, self.train_epochs_f1, label='train_' + metric)
+            plt.plot(x_indices, self.valid_epochs_f1, label='test_' + metric)
+        plt.xlabel('epochs')
+        plt.ylabel(metric)
+        plt.legend()
+        plt.show()
+
     def _get_optim(self, optimizer):
         if isinstance(optimizer, str):
             if optimizer == "sgd":
@@ -140,8 +173,10 @@ class BaseModel(nn.Module):
 
     def _get_loss_func(self, loss):
         if isinstance(loss, str):
-            if loss == "binary_crossentropy":
+            if loss == "binary_cross_entropy":
                 loss_func = F.binary_cross_entropy
+            elif loss == "cross_entropy":
+                loss_func = F.cross_entropy
             elif loss == "mse":
                 loss_func = F.mse_loss
             elif loss == "mae":

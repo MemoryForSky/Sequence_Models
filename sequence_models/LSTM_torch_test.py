@@ -13,12 +13,12 @@ print('data examples: ', vars(training_data.examples[0]))
 
 # %%
 # 2.模型训练
-model = BiLSTM(vocab_size)
+model = BiLSTM(vocab_size, embedding_dim=100)
 # 初始化预训练embedding
 pretrained_embeddings = TEXT.vocab.vectors
 model.embedding.weight.data.copy_(pretrained_embeddings)
 model.embedding.weight.requires_grad = False
-model.compile("adam", "binary_crossentropy", metrics=['auc', 'accuracy'],)
+model.compile("adam", "binary_cross_entropy", metrics=['auc', 'accuracy'],)
 model.fit(training_data, split_ratio=0.3, epochs=3, do_validation=True)
 
 # %%

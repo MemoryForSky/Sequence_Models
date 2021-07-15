@@ -4,7 +4,7 @@ from models.base_model import BaseModel
 
 
 class BiLSTM(BaseModel):
-    def __init__(self, vocab_size, embedding_dim=100, hidden_dim=32, output_dim=1, n_layers=2,
+    def __init__(self, vocab_size, embedding_dim=128, hidden_dim=32, output_dim=1, n_layers=2,
                  bidirectional=True, dropout=0.2, batch_size=64):
         super(BiLSTM, self).__init__(batch_size=batch_size)
 

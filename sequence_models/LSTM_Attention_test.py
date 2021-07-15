@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torchtext import data
+from torchtext.legacy import data
 import math
 import time
 
