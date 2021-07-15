@@ -1,3 +1,7 @@
+"""
+Author:
+    Xiaoqiang Zhang, 1365677361@qq.com
+"""
 import random
 import numpy as np
 import torch
@@ -5,7 +9,7 @@ from torch import nn
 import torch.nn.functional as F
 from torchtext.legacy import data
 from sklearn.metrics import *
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, roc_auc_score
 import matplotlib.pyplot as plt
 
 SEED = 2021
@@ -28,8 +32,10 @@ class BaseModel(nn.Module):
         self.valid_epochs_acc = []
         self.train_epochs_f1 = []
         self.valid_epochs_f1 = []
+        self.train_epochs_auc = []
+        self.valid_epochs_auc = []
 
-    def fit(self, training_data, epochs=3, do_validation=False, split_ratio=0.2):
+    def fit(self, training_data, split_ratio=0.2, epochs=3, do_validation=False):
         train_data, valid_data = training_data.split(split_ratio=split_ratio,
                                                      random_state=random.seed(SEED))
         train_iterator, valid_iterator = data.BucketIterator.splits((train_data, valid_data),
@@ -45,12 +51,17 @@ class BaseModel(nn.Module):
 
         best_valid_loss = float('inf')
 
+        iter_len = len(train_iterator)
         for epoch in range(epochs):
             epoch_loss = 0
             epoch_acc = 0
             epoch_f1 = 0
+            epoch_auc = 0
 
             for batch in train_iterator:
+                if batch.text[0].size(0) < 20:
+                    iter_len -= 1
+                    continue
                 # 在每一个batch后设置0梯度
                 optimizer.zero_grad()
 
@@ -68,7 +79,10 @@ class BaseModel(nn.Module):
                 # 计算f1 score
                 f1 = self.f1_score_(predictions.detach(), batch.label.detach())
 
-                # 反向传播损耗并计算梯度
+                # 计算auc
+                auc = self.auc(predictions.detach(), batch.label.detach())
+
+                # 反向传播&计算梯度
                 loss.backward()
 
                 # 更新权重
@@ -78,19 +92,22 @@ class BaseModel(nn.Module):
                 epoch_loss += loss.item()
                 epoch_acc += acc.item()
                 epoch_f1 += f1.item()
-            train_loss = epoch_loss / len(train_iterator)
-            train_acc = epoch_acc / len(train_iterator)
-            train_f1 = epoch_f1 / len(train_iterator)
+                epoch_auc += auc.item()
+            train_loss = epoch_loss / iter_len
+            train_acc = epoch_acc / iter_len
+            train_f1 = epoch_f1 / iter_len
+            train_auc = epoch_auc / iter_len
 
             self.train_epochs_loss.append(train_loss)
             self.train_epochs_acc.append(train_acc)
             self.train_epochs_f1.append(train_f1)
+            self.train_epochs_auc.append(train_auc)
 
             print(f'Epoch {epoch + 1}：\n  Train Loss: {train_loss:.3f} | Train Acc: {train_acc * 100:.2f}% | '
-                  f'Train f1: {train_f1 * 100:.2f}%')
+                  f'Train f1: {train_f1 * 100:.2f}% | Train AUC: {train_auc * 100:.2f}%')
 
             if do_validation:
-                valid_loss, valid_acc, valid_f1 = self.evaluate(valid_iterator)
+                valid_loss, valid_acc, valid_f1, valid_auc = self.evaluate(valid_iterator)
 
                 # 保存最佳模型
                 if valid_loss < best_valid_loss:
@@ -100,9 +117,10 @@ class BaseModel(nn.Module):
                 self.valid_epochs_loss.append(valid_loss)
                 self.valid_epochs_acc.append(valid_acc)
                 self.valid_epochs_f1.append(valid_f1)
+                self.valid_epochs_auc.append(valid_auc)
 
                 print(f'   Val. Loss: {valid_loss:.3f} |  Val. Acc: {valid_acc * 100:.2f}% |  '
-                      f'Val. f1: {valid_f1 * 100:.2f}%')
+                      f'Val. f1: {valid_f1 * 100:.2f}% | Val. AUC: {valid_auc * 100:.2f}%')
 
     def evaluate(self, iterator):
         # 预测值
@@ -113,8 +131,9 @@ class BaseModel(nn.Module):
         loss = self.loss_func(pred_ans, labels)
         accuracy = self.binary_accuracy(pred_ans, labels)
         f1 = self.f1_score_(pred_ans, labels)
+        auc = self.auc(pred_ans, labels)
 
-        return loss, accuracy, f1
+        return loss, accuracy, f1, auc
 
     def predict(self, iterator):
         # 停用dropout层
@@ -125,7 +144,6 @@ class BaseModel(nn.Module):
         with torch.no_grad():
             for batch in iterator:
                 text, text_lengths = batch.text
-
                 # 转换为一维张量
                 predictions = model(text, text_lengths).squeeze()
                 pred_ans.append(predictions)
@@ -150,6 +168,11 @@ class BaseModel(nn.Module):
         elif metric == 'f1':
             plt.plot(x_indices, self.train_epochs_f1, label='train_' + metric)
             plt.plot(x_indices, self.valid_epochs_f1, label='test_' + metric)
+        elif metric == 'auc':
+            plt.plot(x_indices, self.train_epochs_auc, label='train_' + metric)
+            plt.plot(x_indices, self.valid_epochs_auc, label='test_' + metric)
+        else:
+            raise NotImplementedError
         plt.xlabel('epochs')
         plt.ylabel(metric)
         plt.legend()
@@ -221,3 +244,7 @@ class BaseModel(nn.Module):
         rounded_preds = np.round(preds)
         f1 = f1_score(y, rounded_preds)
         return f1
+
+    def auc(self, preds, y):
+        auc = roc_auc_score(y, preds)
+        return auc

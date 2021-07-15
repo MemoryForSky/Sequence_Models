@@ -9,6 +9,7 @@ class BiLSTM(BaseModel):
         super(BiLSTM, self).__init__(batch_size=batch_size)
 
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
+        # self.word_embeddings = self.word_embeddings.from_pretrained(vectors, freeze=True)
 
         self.lstm = nn.LSTM(embedding_dim,
                             hidden_dim,

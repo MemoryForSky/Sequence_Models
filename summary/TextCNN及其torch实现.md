@@ -9,3 +9,11 @@
 
 
 ## 3、TextCNN代码
+
+
+
+
+
+参考资料：
+
+[1] [TextCNN](https://github.com/delldu/TextCNN)
