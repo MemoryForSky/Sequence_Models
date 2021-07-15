@@ -1,3 +1,11 @@
+"""
+Author:
+    Xiaoqiang Zhang, 1365677361@qq.com
+
+Reference:
+    [1] Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification[J]. 2016.
+        (https://www.aclweb.org/anthology/P/P16/P16-2034.pdf)
+"""
 import math
 import torch
 from torch import nn

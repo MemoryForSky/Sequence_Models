@@ -1,3 +1,11 @@
+"""
+Author:
+    Xiaoqiang Zhang, 1365677361@qq.com
+
+Reference:
+    [1] Convolutional Neural Networks for Sentence Classification[J]. arXiv:1408.5882, 2014.
+       (https://arxiv.org/abs/1408.5882)
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -5,7 +13,7 @@ from models.base_model import BaseModel
 
 
 class TextCNN(BaseModel):
-    def __init__(self, embed_num, embed_dim=128, class_num=2, kernel_num=100, kernel_sizes=[2, 3, 4],
+    def __init__(self, embed_num, embed_dim=128, class_num=2, kernel_num=100, kernel_sizes=(2, 3, 4),
                  dropout=0.5):
         super(TextCNN, self).__init__()
         V = embed_num
