@@ -13,10 +13,10 @@ import torch.nn.functional as F
 from models.base_model import BaseModel
 
 
-class BiLSTM_Attention(BaseModel):
+class BiLSTMAttention(BaseModel):
     def __init__(self, vocab_size, embedding_dim=128, hidden_dim=32, output_dim=1, n_layers=2,
                  bidirectional=True, dropout=0.2, batch_size=64):
-        super(BiLSTM_Attention, self).__init__(batch_size=batch_size)
+        super(BiLSTMAttention, self).__init__(batch_size=batch_size)
 
         self.bidirectional = bidirectional
         self.embedding = nn.Embedding(vocab_size, embedding_dim)

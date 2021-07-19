@@ -1,7 +1,7 @@
 import warnings
 from torchtext.legacy import data
 from preprocessing.inputs import data_preprocessing
-from models.BiLSTM_Attention import BiLSTM_Attention
+from models.BiLSTM_Attention import BiLSTMAttention
 warnings.filterwarnings('ignore')
 
 # %%
@@ -13,7 +13,7 @@ print('data examples: ', vars(training_data.examples[0]))
 
 # %%
 # 2.模型训练
-model = BiLSTM_Attention(vocab_size, embedding_dim=100, batch_size=64)
+model = BiLSTMAttention(vocab_size, embedding_dim=100, batch_size=64)
 # 初始化预训练embedding
 pretrained_embeddings = TEXT.vocab.vectors
 model.embedding.weight.data.copy_(pretrained_embeddings)

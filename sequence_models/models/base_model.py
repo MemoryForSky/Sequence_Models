@@ -6,6 +6,7 @@ import random
 import numpy as np
 import torch
 from torch import nn
+from torch.autograd import Variable, grad
 import torch.nn.functional as F
 from torchtext.legacy import data
 from sklearn.metrics import *
@@ -35,7 +36,7 @@ class BaseModel(nn.Module):
         self.train_epochs_auc = []
         self.valid_epochs_auc = []
 
-    def fit(self, training_data, split_ratio=0.2, epochs=3, do_validation=False):
+    def fit(self, training_data, split_ratio=0.2, epochs=3, do_validation=False, perturbation=False):
         train_data, valid_data = training_data.split(split_ratio=split_ratio,
                                                      random_state=random.seed(SEED))
         train_iterator, valid_iterator = data.BucketIterator.splits((train_data, valid_data),
@@ -72,6 +73,11 @@ class BaseModel(nn.Module):
 
                 # 计算损失
                 loss = criterion(predictions, batch.label)
+
+                if perturbation:
+                    p_adv = self._add_perturbation(text, loss, p_mult=0.02)
+                    adv_loss = F.cross_entropy(model(text, text_lengths, p_adv)[0], batch.label)
+                    loss += adv_loss
 
                 # 计算二分类精度
                 acc = self.binary_accuracy(predictions, batch.label)
@@ -177,6 +183,22 @@ class BaseModel(nn.Module):
         plt.ylabel(metric)
         plt.legend()
         plt.show()
+
+    # TODO test
+    def _add_perturbation(self, emb, loss, p_mult):
+        emb_grad = grad(loss, emb, retain_graph=True)
+        p_adv = torch.FloatTensor(p_mult * self._l2_normalize(emb_grad[0].data))
+        p_adv = Variable(p_adv)
+        return p_adv
+
+    @staticmethod
+    def _l2_normalize(self, d):
+        if isinstance(d, Variable):
+            d = d.data.cpu().numpy()
+        elif isinstance(d, torch.FloatTensor) or isinstance(d, torch.cuda.FloatTensor):
+            d = d.cpu().numpy()
+        d /= (np.sqrt(np.sum(d ** 2, axis=(1, 2))).reshape((-1, 1, 1)) + 1e-16)
+        return torch.from_numpy(d)
 
     def _get_optim(self, optimizer):
         if isinstance(optimizer, str):
