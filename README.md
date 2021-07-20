@@ -10,13 +10,15 @@
 
 ## 2、模型比较
 
-| model            | quora | tagids |
-| ---------------- | ----- | ------ |
-| TFIDF            |       |        |
-| Word2Vec         |       |        |
-| TextCNN          |       |        |
-| BiLSTM           |       |        |
-| BiLSTM+Attention |       |        |
+**quora：**
+
+| model            | Precision | Recall | F1    | AUC   |
+| ---------------- | --------- | ------ | ----- | ----- |
+| TFIDF            | 0.655     | 0.608  | 0.631 | 0.700 |
+| Word2Vec         | 0.673     | 0.676  | 0.675 | 0.742 |
+| TextCNN          |           |        |       |       |
+| BiLSTM           |           |        |       |       |
+| BiLSTM+Attention |           |        |       |       |
 
 ## 3、参考资料
 

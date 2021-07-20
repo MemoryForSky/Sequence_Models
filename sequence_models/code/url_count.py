@@ -18,7 +18,7 @@ with open('./text.txt') as f:
             pair = (last_url[user], url)
             # 只统计对应user下第一次出现的pair
             if pair not in user_seq[user]:
-                user_seq[user].add((last_url[user], url))
+                user_seq[user].add(pair)
 
                 if pair not in pair_cnt:
                     pair_cnt[pair] = 1
@@ -32,10 +32,4 @@ with open('./text.txt') as f:
 print(user_seq)
 print(pair_cnt)
 print(f"max same pair: {max_pair}, max number: {max_val}")
-
-
-
-
-
-
 

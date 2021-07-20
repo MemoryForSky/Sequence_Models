@@ -36,7 +36,7 @@ class BaseModel(nn.Module):
         self.train_epochs_auc = []
         self.valid_epochs_auc = []
 
-    def fit(self, training_data, split_ratio=0.2, epochs=3, do_validation=False, perturbation=False):
+    def fit(self, training_data, split_ratio=0.2, epochs=3, do_validation=False, perturbation=True):
         train_data, valid_data = training_data.split(split_ratio=split_ratio,
                                                      random_state=random.seed(SEED))
         train_iterator, valid_iterator = data.BucketIterator.splits((train_data, valid_data),
@@ -69,14 +69,15 @@ class BaseModel(nn.Module):
                 text, text_lengths = batch.text
 
                 # 转换成一维张量
-                predictions = model(text, text_lengths).squeeze()
+                predictions, embedded = model(text, text_lengths)
+                predictions = predictions.squeeze()
 
                 # 计算损失
                 loss = criterion(predictions, batch.label)
 
                 if perturbation:
-                    p_adv = self._add_perturbation(text, loss, p_mult=0.02)
-                    adv_loss = F.cross_entropy(model(text, text_lengths, p_adv)[0], batch.label)
+                    p_adv = self._add_perturbation(embedded, loss, p_mult=0.02)
+                    adv_loss = criterion(model(text, text_lengths, p_adv)[0].squeeze(), batch.label)
                     loss += adv_loss
 
                 # 计算二分类精度
@@ -151,7 +152,7 @@ class BaseModel(nn.Module):
             for batch in iterator:
                 text, text_lengths = batch.text
                 # 转换为一维张量
-                predictions = model(text, text_lengths).squeeze()
+                predictions = model(text, text_lengths)[0].squeeze()
                 pred_ans.append(predictions)
 
         return np.concatenate(pred_ans).astype("float64")
@@ -192,7 +193,7 @@ class BaseModel(nn.Module):
         return p_adv
 
     @staticmethod
-    def _l2_normalize(self, d):
+    def _l2_normalize(d):
         if isinstance(d, Variable):
             d = d.data.cpu().numpy()
         elif isinstance(d, torch.FloatTensor) or isinstance(d, torch.cuda.FloatTensor):

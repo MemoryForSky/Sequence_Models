@@ -66,14 +66,14 @@ class RCNN(BaseModel):
         index = torch.topk(x, k, dim=dim)[1]
         return torch.gather(x, dim=dim, index=index)
 
-    def forward(self, x, text_lengths):
-        emb = self.embedding(x)
-        out, _ = self.lstm(emb)    # (B, S, 2H)
-        out = torch.cat([emb, out], dim=-1)   # (B, S, E) + (B, S, 2H) = (B, S, 2H+E)
+    def forward(self, seqs, seqs_lengths):
+        embedded = self.embedding(seqs)
+        out, _ = self.lstm(embedded)    # (B, S, 2H)
+        out = torch.cat([embedded, out], dim=-1)   # (B, S, E) + (B, S, 2H) = (B, S, 2H+E)
         out = out.permute((0, 2, 1))    # (B, 2H+E, S)
         out = self.cnn(out)    # (B, C, S-m)
         x = self.topk_pooling(out, k=Config['topk'], dim=-1)   # sequence_len方向取top2，  (B, C, k)
         x = x.view((x.size(0), -1))    # (B, C*k)
         logits = self.fc(x)
         outputs = self.act(logits)
-        return outputs
+        return outputs, embedded

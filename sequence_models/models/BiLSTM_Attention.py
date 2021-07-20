@@ -48,10 +48,10 @@ class BiLSTMAttention(BaseModel):
 
         return context, alpha_n
 
-    def forward(self, text, text_lengths):
+    def forward(self, seqs, seqs_lengths):
         """text = [batch size, sent_length]"""
-        embedded = self.embedding(text)    # embedded = [batch size, sent_len, emb dim]
-        packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, text_lengths, batch_first=True)
+        embedded = self.embedding(seqs)    # embedded = [batch size, sent_len, emb dim]
+        packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, seqs_lengths, batch_first=True)
         packed_output, (hidden, cell) = self.lstm(packed_embedded)
         # hidden = [batch size, num layers * num directions, hid dim]
         # cell = [batch size, num layers * num directions, hid dim]
@@ -64,4 +64,4 @@ class BiLSTMAttention(BaseModel):
         dense_outputs = self.fc(attn_output)
         outputs = self.act(dense_outputs)
 
-        return outputs
+        return outputs, embedded

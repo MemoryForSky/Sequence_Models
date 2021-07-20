@@ -5,9 +5,12 @@ Author:
 Reference:
     [1] Adversarial Training Methods For Semi-Supervised Text Classification[J]. arXiv:1605.07725, 2016.
        (https://arxiv.org/abs/1605.07725)
+    [2] adversarial_training: https://github.com/WangJiuniu/adversarial_training.
 """
+import math
 import torch
 from torch import nn
+import torch.nn.functional as F
 from models.base_model import BaseModel
 
 
@@ -31,7 +34,6 @@ class AdvBiLSTM(BaseModel):
         self.dropout = nn.Dropout(dropout)
         self.act = nn.Sigmoid()
 
-    @staticmethod
     def attention_net(self, x, query):
         d_k = query.size(-1)  # d_k为query的维度
 
@@ -47,12 +49,12 @@ class AdvBiLSTM(BaseModel):
 
         return context, alpha_n
 
-    def forward(self, text, text_lengths, perturbation=None):
+    def forward(self, seqs, seqs_lengths, perturbation=None):
         """text = [batch size, sent_length]"""
-        embedded = self.embedding(text)    # embedded = [batch size, sent_len, emb dim]
-        if perturbation is not None:    # TODO test
+        embedded = self.embedding(seqs)    # embedded = [batch_size, sent_len, emb_dim]
+        if perturbation is not None:
             embedded += perturbation
-        packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, text_lengths, batch_first=True)
+        packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, seqs_lengths, batch_first=True)
         packed_output, (hidden, cell) = self.lstm(packed_embedded)
         # hidden = [batch size, num layers * num directions, hid dim]
         # cell = [batch size, num layers * num directions, hid dim]
@@ -65,5 +67,5 @@ class AdvBiLSTM(BaseModel):
         dense_outputs = self.fc(attn_output)
         outputs = self.act(dense_outputs)
 
-        return outputs
+        return outputs, embedded
 

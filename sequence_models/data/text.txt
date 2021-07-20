@@ -1,0 +1,15 @@
+ts	user	url
+1	A	u2
+1	A	u7
+1	B	u2
+1	B	u7
+1	A	u11
+1	C	u2
+1	A	u2
+1	A	u7
+1	C	u5
+1	C	u2
+1	C	u7
+1	B	u11
+1	A	u2
+1	A	u7
